@@ -6,8 +6,6 @@
     "pages/mys/main"
   ],
   "window": {
-    "backgroundTextStyle": "dark",
-    "enablePullDownRefresh":true,
     "navigationBarBackgroundColor": "#FF2D4A",
     "navigationBarTitleText": "优购",
     "navigationBarTextStyle": "white"
