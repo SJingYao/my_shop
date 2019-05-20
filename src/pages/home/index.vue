@@ -1,12 +1,7 @@
 <template>
   <div>
     <!-- 搜索框 -->
-    <div class="search">
-      <div class="search-bar">
-        <icon type="search" size="20"/>&nbsp;
-        <span>搜索</span>
-      </div>
-    </div>
+    <search-bar></search-bar>
     <!-- 轮播图 -->
     <swiper
       :indicatorDots="indicatorDots"
@@ -15,7 +10,7 @@
       :indicatorActiveColor="indicatorActiveColor"
     >
       <swiper-item :key="index" v-for="(item,index) in imgUrls">
-        <img :src="item" class="slide-image">
+        <img :src="item" class="slideImage">
       </swiper-item>
     </swiper>
     <!-- 分类菜单 -->
@@ -54,7 +49,11 @@
 <script>
 // 导入通用接口模块
 import request from "../../utils/request.js";
+import searchBar from "../../components/search_bar";
 export default {
+  components: {
+    "search-bar": searchBar
+  },
   data() {
     return {
       isShow: false,
@@ -84,6 +83,10 @@ export default {
       this.isShow = false;
     }
   },
+  /* 下拉刷新 */
+  onPullDownRefresh() {
+    this.initData();
+  },
   computed: {
     // 计算属性,控制商品列表的数据
     newFilterItem: function() {
@@ -102,37 +105,19 @@ export default {
           newArr.push(mofi);
         });
       }
-      console.log(newArr);
-        // * 必须return返回 
-      // if(newArr !== undefined){
-      return newArr;
-      // }
+      // console.log(newArr);
+      // * 必须return返回
+      if (newArr === undefined) {
+        mpvue.showLoading({ title: "加载中" });
+      } else {
+        mpvue.hideLoading();
+        return newArr;
+      }
     }
   },
-  async created() {
-    // 缓存this
-    var that = this;
-    // 发送请求获取轮播图数据
-    let getresSlide = await request("home/swiperdata");
-    let slideList = getresSlide.data.message;
-    slideList = slideList.map(item => {
-      return item.image_src;
-    });
-    that.imgUrls = slideList;
-
-    //发送请求获取分类菜单数据
-    let getmenuList = await request("home/catitems");
-    let { message } = getmenuList.data;
-    that.menus = message;
-
-    // 发送请求获取商品列表楼层数据
-    let getshopList = await request("home/floordata");
-    let shopList = getshopList.data.message;
-    shopList = shopList.map(item => {
-      return item;
-    });
-    that.shopFloor = shopList;
-
+  created() {
+    // 初始化首屏数据
+    this.initData();
     /*  mpvue.request({
       url: "https://www.zhengzhicheng.cn/api/public/v1/home/swiperdata",
       // 获取数据成功的回调函数
@@ -157,6 +142,30 @@ export default {
     }); */
   },
   methods: {
+    /* 初始化首页首屏数据 */
+    async initData() {
+      // 发送请求获取轮播图数据
+      let getresSlide = await request("home/swiperdata");
+      let slideList = getresSlide.data.message;
+      slideList = slideList.map(item => {
+        return item.image_src;
+      });
+      this.imgUrls = slideList;
+
+      //发送请求获取分类菜单数据
+      let getmenuList = await request("home/catitems");
+      let { message } = getmenuList.data;
+      this.menus = message;
+
+      // 发送请求获取商品列表楼层数据
+      let getshopList = await request("home/floordata");
+      let shopList = getshopList.data.message;
+      shopList = shopList.map(item => {
+        return item;
+      });
+      this.shopFloor = shopList;
+    },
+
     /* 点击回到顶部 */
     goTop() {
       mpvue.pageScrollTo({
@@ -168,86 +177,7 @@ export default {
 };
 </script>
 
-<style scoped>
-.search {
-  background-color: #ff2d4a;
-  padding: 10rpx;
-}
-.search .search-bar {
-  width: 100%;
-  padding: 6rpx 0;
-  color: #b4b2b2;
-  text-align: center;
-  background-color: #fff;
-  border-radius: 5rpx;
-}
-.search .search-tab icon {
-  vertical-align: middle;
-}
-.slide-image {
-  width: 750rpx;
-}
-.menu {
-  padding: 15rpx 0;
-  display: flex;
-  justify-content: space-around;
-}
-.menu img {
-  flex: 1;
-  width: 130rpx;
-  height: 143rpx;
-  padding: 0 8rpx;
-  box-sizing: border-box;
-}
-.shop-floor {
-  width: 100%;
-}
-.shop-title {
-  background-color: #f4f4f4;
-}
-.shop-title img {
-  height: 85rpx;
-}
-.classifys {
-  display: flex;
-  padding: 16rpx;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.classifys-lf {
-  flex: 1;
-  display: flex;
-}
-.classifys-lf img {
-  width: 232rpx;
-}
-.classifys-rg {
-  flex: 2;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.classifys-rg img {
-  width: 235rpx;
-  height: 232rpx;
-  border-radius: 10rpx;
-}
-.classifys-rg img:nth-child(1),
-.classifys-rg img:nth-child(2) {
-  margin-bottom: 14rpx;
-}
-.toTop {
-  width: 120rpx;
-  height: 120rpx;
-  background-color: #fff;
-  opacity: 0.8;
-  position: fixed;
-  right: 40rpx;
-  bottom: 40rpx;
-  border-radius: 50%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+<style lang="scss" scoped>
+@import "main.scss";
 </style>
+
