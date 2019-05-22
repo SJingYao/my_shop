@@ -6,6 +6,10 @@ const request = function(path) {
       url: url,
       success(res) {
         resolve(res);
+        mpvue.hideLoading();
+      },
+      complete(res) {
+        // console.log(res);
       }
     });
   });

@@ -3,7 +3,9 @@
     "pages/home/main",
     "pages/cate/main",
     "pages/cart/main",
-    "pages/mys/main"
+    "pages/mys/main",
+    "pages/search/main"
+
   ],
   "window": {
     "navigationBarBackgroundColor": "#FF2D4A",

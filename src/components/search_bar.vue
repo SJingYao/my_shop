@@ -3,17 +3,17 @@
     <!-- 搜索框 -->
     <div class="search">
       <div class="search-bar">
-        <icon type="search" size="20"/>&nbsp;
-        <span>搜索</span>
+        <navigator url="/pages/search/main">
+          <icon type="search" size="20"/>&nbsp;
+          <span>搜索</span>
+        </navigator>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>
@@ -26,7 +26,7 @@ export default {
     color: #b4b2b2;
     text-align: center;
     background-color: #fff;
-    border-radius: 5rpx;
+    border-radius: 10rpx;
     icon {
       vertical-align: middle;
     }

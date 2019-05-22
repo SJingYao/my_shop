@@ -51,6 +51,7 @@
 import request from "../../utils/request.js";
 import searchBar from "../../components/search_bar";
 export default {
+  // 注册搜索框组件
   components: {
     "search-bar": searchBar
   },
@@ -91,10 +92,10 @@ export default {
     // 计算属性,控制商品列表的数据
     newFilterItem: function() {
       // 判断 shopFloor是否为空，如果为空不进行处理
+      // 创建一个空数组
+      var newArr = [];
       if (this.shopFloor[0]) {
         // 不为空进行处理
-        // 创建一个空数组
-        var newArr = [];
         // 循环遍历 shopFloor
         this.shopFloor.forEach(item => {
           // 结构赋值遍历出来的每一项数据
@@ -107,12 +108,12 @@ export default {
       }
       // console.log(newArr);
       // * 必须return返回
-      if (newArr === undefined) {
-        mpvue.showLoading({ title: "加载中" });
-      } else {
-        mpvue.hideLoading();
-        return newArr;
-      }
+      // if (newArr === undefined) {
+      // mpvue.showLoading({ title: "加载中" });
+      // } else {
+      return newArr;
+
+      // }
     }
   },
   created() {
@@ -144,6 +145,8 @@ export default {
   methods: {
     /* 初始化首页首屏数据 */
     async initData() {
+      // 接口调用中提示用户信息
+      mpvue.showLoading({ title: "加载中" });
       // 发送请求获取轮播图数据
       let getresSlide = await request("home/swiperdata");
       let slideList = getresSlide.data.message;
