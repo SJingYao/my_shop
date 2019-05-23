@@ -6,7 +6,11 @@
   top: 100rpx;
   bottom: 0;
 }
-
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
 .left {
   height: 100%;
   width: 200rpx;
