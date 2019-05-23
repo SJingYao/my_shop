@@ -32,6 +32,7 @@
     </div>
     <div class="history-list">
       <div :key="index" v-for="(item, index) in keywordHistory" class="history-item">
+        <!-- 使用navigator组件实现历史关键字跳转 -->
         <navigator :url="'/pages/search_list/main?query=' + item">{{item}}</navigator>
       </div>
     </div>
@@ -111,6 +112,13 @@ export default {
       // console.log(mpvue.getStorageSync('keyword'));
       /* 重新更新页面数据 */
       this.keywordHistory = keyH;
+
+      // 输入关键字后，回车触发跳转并携带参数
+      mpvue.navigateTo({
+        url: "/pages/search_list/main?query=" + this.keyword
+      });
+      // 跳转页面后，将搜索框中的内容清空
+      this.keyword = "";
     },
     /* 清空历史关键字 */
     clearkeyWord() {

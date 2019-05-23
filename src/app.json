@@ -4,8 +4,8 @@
     "pages/cate/main",
     "pages/cart/main",
     "pages/mys/main",
-    "pages/search/main"
-
+    "pages/search/main",
+    "pages/search_list/main"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FF2D4A",
